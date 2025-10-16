@@ -1,8 +1,10 @@
 import {Injectable} from '@nestjs/common';
 import {ConfigService} from '@nestjs/config';
 import {
+  GetSendStatisticsCommand,
   SESClient,
   SESClientConfig,
+  SendDataPoint,
   SendEmailCommand,
   SendEmailCommandInput,
   SendEmailCommandOutput,
@@ -92,6 +94,14 @@ export class AwsSesService {
     emailParams.html = render(layoutHtml, {content: contentHtml});
 
     return await this.send(emailParams);
+  }
+
+  async getSendStatistics(): Promise<SendDataPoint[] | undefined> {
+    // Provides sending statistics for the current Amazon Web Services Region.
+    // The result is a list of data points, representing the last two weeks of sending activity.
+    // Each data point in the list contains statistics for a 15-minute period of time.
+    const response = await this.client.send(new GetSendStatisticsCommand({}));
+    return response.SendDataPoints;
   }
 
   private async send(

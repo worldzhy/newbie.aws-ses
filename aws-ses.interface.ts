@@ -74,7 +74,7 @@ export interface SendEmailWithTemplateParams {
   };
 }
 
-enum EmailTemplate {
+export enum EmailTemplate {
   AuthVerifyEmail = 'auth/verify-email',
   AuthVerifyEmailResend = 'auth/verify-email-resend',
   AuthVerifySubnet = 'auth/verify-subnet',
