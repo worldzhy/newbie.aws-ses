@@ -9,11 +9,7 @@ import {
   SendEmailCommandInput,
   SendEmailCommandOutput,
 } from '@aws-sdk/client-ses';
-import {
-  SendEmailParams,
-  SendEmailsParams,
-  SendEmailWithTemplateParams,
-} from './aws-ses.interface';
+import {SendEmailParams, SendEmailsParams, SendEmailWithTemplateParams} from './aws-ses.interface';
 import {promises as fs} from 'fs';
 import {join} from 'path';
 import {marked} from 'marked';
@@ -57,9 +53,7 @@ export class AwsSesService {
     return await this.send(params);
   }
 
-  async sendEmailWithTemplate(
-    params: SendEmailWithTemplateParams
-  ): Promise<SendEmailCommandOutput> {
+  async sendEmailWithTemplate(params: SendEmailWithTemplateParams): Promise<SendEmailCommandOutput> {
     const emailParams: SendEmailParams = {
       toAddress: params.toAddress,
       subject: '',
@@ -72,18 +66,12 @@ export class AwsSesService {
     let templateMarkdown = await this.readTemplate(templatePath);
 
     // [step 2] Replace information in template
-    let contentMarkdown = render(
-      templateMarkdown,
-      params.template[templatePath] || {}
-    );
+    let contentMarkdown = render(templateMarkdown, params.template[templatePath] || {});
     if (contentMarkdown.startsWith('#')) {
       const subject = contentMarkdown.split('\n', 1)[0].replace('#', '').trim();
       if (subject) {
         emailParams.subject = subject;
-        contentMarkdown = contentMarkdown.replace(
-          `# ${contentMarkdown.split('\n', 1)[0]}`,
-          ''
-        );
+        contentMarkdown = contentMarkdown.replace(`# ${contentMarkdown.split('\n', 1)[0]}`, '');
       }
     }
     emailParams.text = contentMarkdown;
@@ -104,11 +92,8 @@ export class AwsSesService {
     return response.SendDataPoints;
   }
 
-  private async send(
-    params: SendEmailParams | SendEmailsParams
-  ): Promise<SendEmailCommandOutput> {
-    const toAddresses =
-      'toAddresses' in params ? params.toAddresses : [params.toAddress];
+  private async send(params: SendEmailParams | SendEmailsParams): Promise<SendEmailCommandOutput> {
+    const toAddresses = 'toAddresses' in params ? params.toAddresses : [params.toAddress];
 
     const commandInput: SendEmailCommandInput = {
       Source: this.fromAddress,

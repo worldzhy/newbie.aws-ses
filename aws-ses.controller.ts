@@ -2,10 +2,7 @@ import {Body, Controller, Get, Post} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
 import {AwsSesService} from './aws-ses.service';
 import {EmailTemplate} from './aws-ses.interface';
-import {
-  SendEmailRequestDto,
-  SendEmailWithTemplateRequestDto,
-} from './aws-ses.dto';
+import {SendEmailRequestDto, SendEmailWithTemplateRequestDto} from './aws-ses.dto';
 
 @ApiTags('AWS SES')
 @Controller('aws-ses/emails')

@@ -36,11 +36,7 @@ export class AwsSesSuppressionListService {
     this.client = new SESv2Client(clientConfig);
   }
 
-  async listSuppressedDestinations(params: {
-    reasons?: SuppressionListReason[];
-    nextToken?: string;
-    pageSize?: number;
-  }) {
+  async listSuppressedDestinations(params: {reasons?: SuppressionListReason[]; nextToken?: string; pageSize?: number}) {
     const input: ListSuppressedDestinationsCommandInput = {
       Reasons: params.reasons,
       NextToken: params.nextToken,
@@ -65,10 +61,7 @@ export class AwsSesSuppressionListService {
     return response;
   }
 
-  async addSuppressedDestination(params: {
-    emailAddress: string;
-    reason: SuppressionListReason;
-  }) {
+  async addSuppressedDestination(params: {emailAddress: string; reason: SuppressionListReason}) {
     const command = new PutSuppressedDestinationCommand({
       EmailAddress: params.emailAddress,
       Reason: params.reason,
